@@ -21,4 +21,14 @@
 # define HEIGHT	1280
 # define WIDTH	720
 
+typedef struct	s_cub3d
+{
+	void		*mlx;
+	void		*mlx_window;
+	t_img		screen;
+	t_tex		textures;
+	t_player	player;
+	t_map		map;
+}				t_cub3d;
+
 #endif

@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_mlx.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kelevequ <kelevequ@student.42.fr>          #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-15 05:01:48 by kelevequ          #+#    #+#             */
-/*   Updated: 2025-07-15 05:01:48 by kelevequ         ###   ########.fr       */
+/*   Created: 2025-07-15 12:09:12 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-15 12:09:12 by kelevequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_MLX_H
-# define CUB3D_MLX_H
+#include "cub3d.h"
 
-typedef struct	s_img
+int	main(void)
 {
-	void	*img_ptr;
-	char	*pixels_ptr;
-	int		height;
-	int		width;
-	int		bpp;
-	int		endian;
-	int		line_len;
-}			t_img;
+	t_cub3d	cub3d;
 
-typedef struct	s_tex
-{
-	t_img	floor;
-	t_img	north;
-	t_img	south;
-	t_img	west;
-	t_img	east;
-	t_img	door;
-	t_img	sky;
-}			t_tex;
-
-#endif
+	if (!ft_init_cub3d(&cub3d, argv[1]))
+		return (0);
+	mlx_loop_hook(cub3d.mlx, &ft_engine, &cub3d);
+	mlx_loop(cub3d.mlx);
+}
