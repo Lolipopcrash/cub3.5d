@@ -19,7 +19,9 @@
 typedef struct	s_player
 {
 	t_3db_point	pos;
-	t_3db_point	look_dir;
+	t_2db_point	look_dir;
+	int			pitch;
+	t_2db_point	cam_plane;
 	t_2db_point	walk_dir;
 	bool		is_running;
 	bool		is_walking;

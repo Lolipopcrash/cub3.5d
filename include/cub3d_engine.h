@@ -15,9 +15,21 @@
 
 # include "cub3d_point.h"
 
+# define X_AXIS	0
+# define Y_AXIS	1
+
+typedef struct	s_draw_elements
+{
+	t_2int_point	sky;
+	t_2int_point	wall;
+	t_2int_point	door;
+	t_2int_point	floor;
+	int				vert_offset;
+}					t_draw_elements;
+
 typedef struct	s_ray
 {
-	double	camera_x; //could be precalculated based on window WIDTH
+	//double			camera_x; //could be precalculated based on window WIDTH
 	t_2db_point		ray_dir;
 	t_2int_point	map_pos;
 	t_2db_point		delta;
@@ -27,8 +39,10 @@ typedef struct	s_ray
 	bool			axis;
 	double			distance;
 	int				line_height;
-	t_2int_point	draw_boundaries; //x start, y end
+	t_2int_point	draw_bound; //x start, y end
 	double			wall_x;
-}			t_ray;
+	t_img			*tex;
+	t_2int_point	tex_pixel;
+}					t_ray;
 
 #endif
