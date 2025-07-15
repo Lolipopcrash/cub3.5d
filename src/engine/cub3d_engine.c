@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	ft_render_image(t_cub3d *cub3d)
+static void	ft_render_image(t_cub3d *cub3d)
 {
 	t_3int_point	screen_pixel;
 	t_ray			ray;
@@ -34,9 +34,22 @@ void	ft_render_image(t_cub3d *cub3d)
 	}
 }
 
+static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
+{
+	t_2int_point	player;
+
+	player.x = (int)cub3d->player.pos.x;
+	player.y = (int)cub3d->player.pos.y;
+	if (player.x < 0 || player.x >= map.width ||
+		player.y < 0 || player.y >= map.height ||
+		map.level[player_y][player_x] != PLAYABLE_AREA)
+		return (0);
+	return (1);
+}
+
 int	ft_engine(t_cub3d *cub3d)
 {
-	ft_update_frame_info(cub3d);
+	//ft_update_frame_info(cub3d);
 	if (ft_valid_position(cub3d))
 		ft_render_image(cub3d);
 	else

@@ -36,7 +36,7 @@ t_ray	ft_new_ray(int x, t_player player)
 	return (ray);
 }
 
-void	ft_hit_loop(t_map map, t_ray *ray)
+static void	ft_hit_loop(t_map map, t_ray *ray)
 {
 	while (!ray->hit)
 	{
