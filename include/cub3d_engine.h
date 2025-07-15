@@ -30,7 +30,7 @@ typedef struct	s_draw_elements
 typedef struct	s_ray
 {
 	//double			camera_x; //could be precalculated based on window WIDTH
-	t_2db_point		ray_dir;
+	t_2db_point		dir;
 	t_2int_point	map_pos;
 	t_2db_point		delta;
 	t_2int_point	step;
