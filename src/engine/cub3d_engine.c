@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_engine.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kelevequ <kelevequ@student.42.fr>          #+#  +:+       +#+        */
+/*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-15 04:47:41 by kelevequ          #+#    #+#             */
-/*   Updated: 2025-07-15 04:47:41 by kelevequ         ###   ########.fr       */
+/*   Created: 2025-07-16 05:33:54 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-16 05:33:54 by kelevequ         ###   ########.lu       */
 /*                                                                            */
 /* ************************************************************************** */
 

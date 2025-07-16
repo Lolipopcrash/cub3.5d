@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_point.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kelevequ <kelevequ@student.42luxembourg    +#+  +:+       +#+        */
+/*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 19:38:38 by kelevequ          #+#    #+#             */
-/*   Updated: 2025/07/14 19:38:38 by kelevequ         ###   ########.fr       */
+/*   Created: 2025-07-16 05:33:35 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-16 05:33:35 by kelevequ         ###   ########.lu       */
 /*                                                                            */
 /* ************************************************************************** */
 
