@@ -18,7 +18,7 @@
 # include "cub3d_engine.h"
 # include "cub3d_controls.h"
 
-# define PLAYABLE_AREA -1
+# define PLAYABLE_AREA 'F'
 # define HEIGHT	1280
 # define WIDTH	720
 
@@ -29,8 +29,11 @@ typedef struct	s_cub3d
 	t_img		screen;
 	t_tex		textures;
 	t_player	player;
-	t_map		map;
+	t_map		*map;
+	int			nbr_levels;
 	uint8_t		keystate[KEY_MAX / BIT_PER_BYTE];
 }				t_cub3d;
+
+void	ft_init_cub3d(t_cub3d *cub3d);
 
 #endif

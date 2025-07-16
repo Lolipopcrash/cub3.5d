@@ -16,8 +16,7 @@ int	main(void)
 {
 	t_cub3d	cub3d;
 
-	if (!ft_init_cub3d(&cub3d, argv[1]))
-		return (0);
+	ft_init_cub3d(&cub3d);
 	mlx_loop_hook(cub3d.mlx, &ft_engine, &cub3d);
 	mlx_loop(cub3d.mlx);
 }

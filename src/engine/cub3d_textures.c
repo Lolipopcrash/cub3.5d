@@ -27,3 +27,13 @@ t_img	ft_load_texture(void *mlx, char *file_path)
 			&tex.endian);
 	return (tex);
 }
+
+int	ft_get_texture_pixel(t_img *tex, int x, int y)
+{
+	int	offset;
+
+	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+		return (0);
+	offset = y * tex->line_len + x * (tex->bpp / 8);
+	return (*(int *)(tex->pixels_ptr + offset));
+}

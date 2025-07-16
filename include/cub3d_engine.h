@@ -49,4 +49,6 @@ typedef struct	s_ray
 	t_2int_point	tex_pixel;
 }					t_ray;
 
+int	ft_engine(t_cub3d *cub3d);
+
 #endif
