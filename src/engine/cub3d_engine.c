@@ -12,6 +12,16 @@
 
 #include "cub3d.h"
 
+static void	ft_put_pixel(t_img *img, int x, int y, int color)
+{
+	int	offset;
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return;
+	offset = (y * img->line_len) + (x * (img->bpp / 8));
+	*(unsigned int *)(img->pixels_ptr + offset) = color;
+}
+
 static void	ft_render_image(t_cub3d *cub3d)
 {
 	t_3int_point	screen_pixel;
@@ -47,9 +57,15 @@ static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
 	return (1);
 }
 
+void	ft_update_frame_info(t_cub3d *cub3d)
+{
+	ft_controls(cub3d); //temporary for testing
+	//When multi-threading introduced will update threaded player data once for current frame
+}
+
 int	ft_engine(t_cub3d *cub3d)
 {
-	//ft_update_frame_info(cub3d);
+	ft_update_frame_info(cub3d);
 	if (ft_valid_position(cub3d))
 		ft_render_image(cub3d);
 	else

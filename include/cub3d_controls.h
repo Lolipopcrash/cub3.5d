@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_controls.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-16 05:33:42 by kelevequ          #+#    #+#             */
-/*   Updated: 2025-07-16 05:33:42 by kelevequ         ###   ########.lu       */
+/*   Created: 2025-07-16 08:24:53 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-16 08:24:53 by kelevequ         ###   ########.lu       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_CONTROLS_H
+# define CUB3D_CONTROLS_H
 
-# include "cub3d_img.h"
-# include "cub3d_player.h"
-# include "cub3d_engine.h"
-# include "cub3d_controls.h"
+# define KEY_MAX 65536
 
-# define PLAYABLE_AREA -1
-# define HEIGHT	1280
-# define WIDTH	720
+  /* ----------------- */
+ /* Movement Controls */
+/* ----------------- */
 
-typedef struct	s_cub3d
-{
-	void		*mlx;
-	void		*mlx_window;
-	t_img		screen;
-	t_tex		textures;
-	t_player	player;
-	t_map		map;
-	bool		keystate[KEY_MAX];
-}				t_cub3d;
+# define UP
+# define DOWN
+# define LEFT
+# define RIGHT
+# define W
+# define A
+# define S
+# define D
 
 #endif

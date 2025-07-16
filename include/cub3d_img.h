@@ -35,4 +35,6 @@ typedef struct	s_tex
 	t_img	sky;
 }			t_tex;
 
+t_img	ft_load_texture(void *mlx, char *file_path);
+
 #endif

@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-16 05:33:42 by kelevequ          #+#    #+#             */
-/*   Updated: 2025-07-16 05:33:42 by kelevequ         ###   ########.lu       */
+/*   Created: 2025-07-16 06:11:17 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-16 06:11:17 by kelevequ         ###   ########.lu       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "cub3d.h"
 
-# include "cub3d_img.h"
-# include "cub3d_player.h"
-# include "cub3d_engine.h"
-# include "cub3d_controls.h"
-
-# define PLAYABLE_AREA -1
-# define HEIGHT	1280
-# define WIDTH	720
-
-typedef struct	s_cub3d
+t_img	ft_load_texture(void *mlx, char *file_path)
 {
-	void		*mlx;
-	void		*mlx_window;
-	t_img		screen;
-	t_tex		textures;
-	t_player	player;
-	t_map		map;
-	bool		keystate[KEY_MAX];
-}				t_cub3d;
+	t_img	tex;
 
-#endif
+	tex.img_ptr = mlx_xpm_file_to_image(mlx, file_path,
+			&tex.width,
+			&tex.height);
+	if (!tex.img_ptr)
+		return(tex);
+	tex.pixels_ptr = mlx_get_data_addr(tex.img_ptr,
+			&tex.bpp,
+			&tex.line_len,
+			&tex.endian);
+	return (tex);
+}

@@ -14,9 +14,12 @@
 # define CUB3D_ENGINE_H
 
 # include "cub3d_point.h"
+# include "cub3d_img.h"
 
 # define X_AXIS	0
 # define Y_AXIS	1
+# define DEFAULT_FLOOR_COLOR 0xFFF8DC
+# define DEFAULT_ROOF_COLOR 0x87CEFA
 
 typedef struct	s_draw_elements
 {
