@@ -29,15 +29,21 @@ int	ft_close(t_cub3d *cub3d)
 	exit(EXIT_SUCCESS);
 }
 
-
-
-void	ft_key_press(int keystate, t_cub3d *cub3d)
+int	ft_key_release(int keycode, t_cub3d *cub3d)
 {
-	if (keystate == ESC)
+	if (keycode >= 0 && keycode < KEY_MAX)
+		cub3d->keystate[keycode / BIT_PER_BYTE] &= ~(1 << keycode % BIT_PER_BYTE);
+	return (0);
+}
+
+int	ft_key_press(int keycode, t_cub3d *cub3d)
+{
+	if (keycode == ESC)
 		ft_close(cub3d);
 	else if (keycode == LEFT || keycode = RIGHT || keycode == W || keycode == A ||
 			keycode == S || keycode == D)
-		cub3d->keystate[keycode] = true;
+		cub3d->keystate[keycode / BIT_PER_BYTE] |= (1 << keycode % BIT_PER_BYTE);
 	else
 		ft_key(keycode, cub3d);
+	return (0);
 }

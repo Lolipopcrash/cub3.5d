@@ -20,6 +20,7 @@
 # define Y_AXIS	1
 # define DEFAULT_FLOOR_COLOR 0xFFF8DC
 # define DEFAULT_ROOF_COLOR 0x87CEFA
+# define DEFAULT_WALL_COLOR 0xB0B0B0
 
 typedef struct	s_draw_elements
 {

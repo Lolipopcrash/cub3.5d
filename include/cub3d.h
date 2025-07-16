@@ -30,7 +30,7 @@ typedef struct	s_cub3d
 	t_tex		textures;
 	t_player	player;
 	t_map		map;
-	bool		keystate[KEY_MAX];
+	uint8_t		keystate[KEY_MAX / BIT_PER_BYTE];
 }				t_cub3d;
 
 #endif
