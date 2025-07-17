@@ -27,7 +27,7 @@ typedef struct	s_player
 	bool		is_walking;
 	bool		is_crouch;
 	bool		is_jump;
-	int			speed;
+	double		speed;
 }				t_player;
 
 #endif

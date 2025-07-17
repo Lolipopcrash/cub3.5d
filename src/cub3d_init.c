@@ -28,7 +28,7 @@ static void	ft_init_player(t_player *player)
 	player->is_walking = false;
 	player->is_crouch = false;
 	player->is_jump = false;
-	player->speed = 0;
+	player->speed = 0.05;
 }
 
 static void	ft_init_map(t_map *map)
@@ -77,13 +77,13 @@ static void	ft_init_map(t_map *map)
 
 static void	ft_init_textures(t_cub3d *cub3d, t_tex *textures)
 {
-	textures->floor = ft_load_texture(cub3d->mlx, "./gfx/floor.xpm");
-	textures->north = ft_load_texture(cub3d->mlx, "./gfx/nwall.xpm");
-	textures->south = ft_load_texture(cub3d->mlx, "./gfx/swall.xpm");
-	textures->west = ft_load_texture(cub3d->mlx, "./gfx/wwall.xpm");
-	textures->east = ft_load_texture(cub3d->mlx, "./gfx/ewall.xpm");
-	textures->door = ft_load_texture(cub3d->mlx, "./gfx/door.xpm");
-	textures->sky = ft_load_texture(cub3d->mlx, "./gfx/sky2.xpm");
+	textures->floor = ft_load_texture(cub3d->mlx, "./src/gfx/floor.xpm");
+	textures->north = ft_load_texture(cub3d->mlx, "./src/gfx/nwall.xpm");
+	textures->south = ft_load_texture(cub3d->mlx, "./src/gfx/swall.xpm");
+	textures->west = ft_load_texture(cub3d->mlx, "./src/gfx/wwall.xpm");
+	textures->east = ft_load_texture(cub3d->mlx, "./src/gfx/ewall.xpm");
+	textures->door = ft_load_texture(cub3d->mlx, "./src/gfx/door.xpm");
+	textures->sky = ft_load_texture(cub3d->mlx, "./src/gfx/sky2.xpm");
 }
 
 static void	ft_init_events(t_cub3d *cub3d)
