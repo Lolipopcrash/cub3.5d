@@ -30,8 +30,8 @@ static void	ft_update_player_pos(uint8_t *keystate, t_player *player)
 	}
 	if ((keystate[A_BYTE] & (1 << A_BIT)) != 0)
 	{
-		player->pos.x -= player->look_dir.y * player->speed;
-		player->pos.y += player->look_dir.x * player->speed;
+		player->pos.x += player->look_dir.y * player->speed;
+		player->pos.y -= player->look_dir.x * player->speed;
 	}
 	if ((keystate[S_BYTE] & (1 << S_BIT)) != 0)
 	{
@@ -40,8 +40,8 @@ static void	ft_update_player_pos(uint8_t *keystate, t_player *player)
 	}
 	if ((keystate[D_BYTE] & (1 << D_BIT)) != 0)
 	{
-		player->pos.x += player->look_dir.y * player->speed;
-		player->pos.y -= player->look_dir.x * player->speed;
+		player->pos.x -= player->look_dir.y * player->speed;
+		player->pos.y += player->look_dir.x * player->speed;
 	}
 }
 
@@ -62,19 +62,19 @@ static void	ft_update_player_dir(uint8_t *keystate, t_player *player)
 
 	old_look_dir_x = player->look_dir.x;
 	old_cam_plane_x = player->cam_plane.x;
-	if ((keystate[LEFT_BYTE] & (1 << LEFT_BIT)) != 0)
+	if ((keystate[RIGHT_BYTE] & (1 << RIGHT_BIT)) != 0)
 	{
-		player->look_dir.x = player->look_dir.x * cos(0.05) - player->look_dir.y * sin(0.05);
-		player->look_dir.y = old_look_dir_x * sin(0.05) + player->look_dir.y * cos(0.05);
-		player->cam_plane.x = player->cam_plane.x * cos(0.05) - player->cam_plane.y * sin(0.05);
-		player->cam_plane.y = old_cam_plane_x * sin(0.05) + player->cam_plane.y * cos(0.05);
+		player->look_dir.x = player->look_dir.x * cos(0.035) - player->look_dir.y * sin(0.035);
+		player->look_dir.y = old_look_dir_x * sin(0.035) + player->look_dir.y * cos(0.035);
+		player->cam_plane.x = player->cam_plane.x * cos(0.035) - player->cam_plane.y * sin(0.035);
+		player->cam_plane.y = old_cam_plane_x * sin(0.035) + player->cam_plane.y * cos(0.035);
 	}
-	else if ((keystate[RIGHT_BYTE] & (1 << RIGHT_BIT)) != 0)
+	else if ((keystate[LEFT_BYTE] & (1 << LEFT_BIT)) != 0)
 	{
-		player->look_dir.x = player->look_dir.x * cos(-0.05) - player->look_dir.y * sin(-0.05);
-		player->look_dir.y = old_look_dir_x * sin(-0.05) + player->look_dir.y * cos(-0.05);
-		player->cam_plane.x = player->cam_plane.x * cos(-0.05) - player->cam_plane.y * sin(-0.05);
-		player->cam_plane.y = old_cam_plane_x * sin(-0.05) + player->cam_plane.y * cos(-0.05);
+		player->look_dir.x = player->look_dir.x * cos(-0.035) - player->look_dir.y * sin(-0.035);
+		player->look_dir.y = old_look_dir_x * sin(-0.035) + player->look_dir.y * cos(-0.035);
+		player->cam_plane.x = player->cam_plane.x * cos(-0.035) - player->cam_plane.y * sin(-0.035);
+		player->cam_plane.y = old_cam_plane_x * sin(-0.035) + player->cam_plane.y * cos(-0.035);
 	}
 }
 

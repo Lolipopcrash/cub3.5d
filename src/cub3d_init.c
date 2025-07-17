@@ -28,7 +28,7 @@ static void	ft_init_player(t_player *player)
 	player->is_walking = false;
 	player->is_crouch = false;
 	player->is_jump = false;
-	player->speed = 0.05;
+	player->speed = 0.03;
 }
 
 static void	ft_init_map(t_map *map)
