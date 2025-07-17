@@ -13,6 +13,8 @@
 #ifndef CUB3D_POINT_H
 # define CUB3D_POINT_H
 
+# include "cub3d_extlibs.h"
+
 typedef struct	s_2int_point
 {
 	int	x;

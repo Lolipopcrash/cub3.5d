@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_map.h                                        :+:      :+:    :+:   */
+/*   cub3d_extlibs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-16 17:23:13 by kelevequ          #+#    #+#             */
-/*   Updated: 2025-07-16 17:23:13 by kelevequ         ###   ########.lu       */
+/*   Created: 2025-07-17 05:28:48 by kelevequ          #+#    #+#             */
+/*   Updated: 2025-07-17 05:28:48 by kelevequ         ###   ########.lu       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_MAP_H
-# define CUB3D_MAP_H
+#ifndef CUB3D_EXTLIBS_H
+# define CUB3D_EXTLIBS_H
 
-# include "cub3d_extlibs.h"
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdint.h>
+# include <unistd.h>
+# include <stdbool.h>
+# include <sys/time.h>
 
-typedef struct	s_map
-{
-	int		min_x;
-	int		min_y;
-	int		max_x;
-	int		max_y;
-	int		level_id;
-	char	**level;
-}			t_map;
+# include "mlx.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 #endif

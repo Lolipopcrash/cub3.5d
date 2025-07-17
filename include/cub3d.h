@@ -13,14 +13,16 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "cub3d_extlibs.h"
 # include "cub3d_img.h"
+# include "cub3d_map.h"
 # include "cub3d_player.h"
 # include "cub3d_engine.h"
 # include "cub3d_controls.h"
 
 # define PLAYABLE_AREA 'F'
-# define HEIGHT	1280
-# define WIDTH	720
+# define HEIGHT	720
+# define WIDTH	1280
 
 typedef struct	s_cub3d
 {

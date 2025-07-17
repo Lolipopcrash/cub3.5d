@@ -24,7 +24,7 @@ int	ft_close(t_cub3d *cub3d)
 
 	mlx_destroy_image(cub3d->mlx, cub3d->screen.img_ptr);
 	mlx_destroy_window(cub3d->mlx, cub3d->mlx_window);
-	mlx_destory_display(cub3d->mlx);
+	mlx_destroy_display(cub3d->mlx);
 	free(cub3d->mlx);
 	exit(EXIT_SUCCESS);
 }
@@ -36,11 +36,17 @@ int	ft_key_release(int keycode, t_cub3d *cub3d)
 	return (0);
 }
 
+static void	ft_key(int keycode, t_cub3d *cub3d)
+{
+	(void) keycode;
+	(void) cub3d;
+}
+
 int	ft_key_press(int keycode, t_cub3d *cub3d)
 {
 	if (keycode == ESC)
 		ft_close(cub3d);
-	else if (keycode == LEFT || keycode = RIGHT || keycode == W || keycode == A ||
+	else if (keycode == LEFT || keycode == RIGHT || keycode == W || keycode == A ||
 			keycode == S || keycode == D)
 		cub3d->keystate[keycode / BIT_PER_BYTE] |= (1 << keycode % BIT_PER_BYTE);
 	else

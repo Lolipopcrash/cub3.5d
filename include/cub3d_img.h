@@ -13,6 +13,8 @@
 #ifndef CUB3D_MLX_H
 # define CUB3D_MLX_H
 
+# include "cub3d_extlibs.h"
+
 typedef struct	s_img
 {
 	void	*img_ptr;

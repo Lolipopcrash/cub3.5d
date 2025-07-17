@@ -13,7 +13,7 @@
 #ifndef CUB3D_PLAYER_H
 # define CUB3D_PLAYER_H
 
-# include "libft.h"
+# include "cub3d_extlibs.h"
 # include "cub3d_point.h"
 
 typedef struct	s_player
@@ -27,6 +27,7 @@ typedef struct	s_player
 	bool		is_walking;
 	bool		is_crouch;
 	bool		is_jump;
+	int			speed;
 }				t_player;
 
 #endif
