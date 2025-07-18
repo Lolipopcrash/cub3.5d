@@ -17,6 +17,8 @@
 
 typedef struct	s_map
 {
+	int		offset_x;
+	int		offset_y;
 	int		min_x;
 	int		min_y;
 	int		max_x;
