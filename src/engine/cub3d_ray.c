@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_ray.c                                        :+:      :+:    :+:   */
+/*   cub3d_vray.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kelevequ <kelevequ@student.42luxembourg>   #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,10 +12,10 @@
 
 #include "cub3d.h"
 
-t_ray	ft_new_ray(int x, t_player player)
+t_vray	ft_new_vray(int x, t_player player)
 {
 	double	camera_x; //could be precalculated based on window WIDTH
-	t_ray	ray;
+	t_vray	ray;
 	
 	camera_x = 2.0 * x / WIDTH - 1;
 	ray.dir.x = player.look_dir.x + player.cam_plane.x * camera_x;
@@ -36,7 +36,7 @@ t_ray	ft_new_ray(int x, t_player player)
 	return (ray);
 }
 
-static void	ft_hit_loop(t_map map, t_ray *ray)
+static void	ft_hit_loop(t_map map, t_vray *ray)
 {
 	bool	ray_inside_map;
 
@@ -65,7 +65,7 @@ static void	ft_hit_loop(t_map map, t_ray *ray)
 	}
 }
 
-void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray, int level)
+void	ft_calculate_vray(t_cub3d *cub3d, t_vray *ray, int level)
 {
 	ft_hit_loop(cub3d->map[level], ray);
 	ray->distance = (ray->axis == X_AXIS)
@@ -86,4 +86,18 @@ void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray, int level)
 	ray->tex_pixel.x = (int)(ray->wall_x * ray->tex->width);
 	if ((ray->axis == X_AXIS && ray->dir.x > 0) || (ray->axis == Y_AXIS && ray->dir.y < 0))
 		ray->tex_pixel.x = ray->tex->width - ray->tex_pixel.x - 1;
+}
+
+t_hray	ft_new_hray(t_2int_point pixel, t_2db_point dir_left, t_2db_point dir_right, t_3db_point player_pos, int nbr_floor, int floor)
+{
+	t_hray	ray;
+
+	ray.pixel_horizon = pixel.y - HEIGHT / 2;
+	ray.pixel_camera_height = 0.5 * HEIGHT + (nbr_floor - floor) * HEIGHT;
+	ray.distance = ray.pixel_camera_height / ray.pixel_horizon;
+	ray.step.x = ray.distance * (dir_right.x - dir_left.x) / WIDTH;
+	ray.step.y = ray.distance * (dir_right.y - dir_left.y) / WIDTH;
+	ray.pos.x = player_pos.x + ray.distance * dir_left.x;
+	ray.pos.y = player_pos.y + ray.distance * dir_left.y;
+	return (ray);
 }

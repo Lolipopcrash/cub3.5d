@@ -22,7 +22,7 @@ static void	ft_put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)(img->pixels_ptr + offset) = color;
 }
 
-static int	ft_get_color(t_2int_point screen_pixel, t_ray ray)
+static int	ft_get_color(t_2int_point screen_pixel, t_vray ray)
 {
 	int	d;
 
@@ -54,40 +54,96 @@ static void	ft_render_background(t_cub3d *cub3d)
 	}
 }
 
+static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int player_floor)
+{
+	t_2int_point	pixel;
+	t_2db_point		dir_left;
+	t_2db_point		dir_right;
+	t_hray			ray;
+
+	dir_left.x = cub3d->player.look_dir.x - cub3d->player.cam_plane.x;
+	dir_left.y = cub3d->player.look_dir.y - cub3d->player.cam_plane.y;
+	dir_right.x = cub3d->player.look_dir.x + cub3d->player.cam_plane.x;
+	dir_right.y = cub3d->player.look_dir.y + cub3d->player.cam_plane.y;
+	pixel.y = HEIGHT / 2 + 1;
+	while (pixel.y < HEIGHT)
+	{
+		ray = ft_new_hray(pixel, dir_left, dir_right, cub3d->player.pos, player_floor, draw_floor);
+		pixel.x = 0;
+		while (pixel.x < WIDTH)
+		{
+			ray.map_pos.x = (int)ray.pos.x;
+			ray.map_pos.y = (int)ray.pos.y;
+			if (cub3d->map[draw_floor].min_x < ray.map_pos.x && ray.map_pos.x < cub3d->map[draw_floor].max_x &&
+				cub3d->map[draw_floor].min_y < ray.map_pos.y && ray.map_pos.y < cub3d->map[draw_floor].max_y)
+			{
+				if (cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == 'F' ||
+					cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == 'D')
+				{
+					ray.tex_pixel.x = (int)(ray.pos.x * cub3d->textures.floor.width) % cub3d->textures.floor.width;
+					ray.tex_pixel.y = (int)(ray.pos.y * cub3d->textures.floor.height) % cub3d->textures.floor.height;
+						if (ray.tex_pixel.x < 0)
+						ray.tex_pixel.x += cub3d->textures.floor.width;
+					if (ray.tex_pixel.y < 0)
+						ray.tex_pixel.y += cub3d->textures.floor.height;
+					int	color = ft_get_texture_pixel(&cub3d->textures.floor, ray.tex_pixel.x, ray.tex_pixel.y);
+					ft_put_pixel(&cub3d->screen, pixel.x, pixel.y, color);
+				}
+			}
+			ray.pos.x += ray.step.x;
+			ray.pos.y += ray.step.y;
+			pixel.x++;
+		}
+		pixel.y++;
+	}
+}
+
+static void	ft_render_wall(t_cub3d *cub3d, int draw_level)
+{
+	t_2int_point	pixel;
+	t_vray			ray;
+	int				color;
+
+	pixel.x = 0;
+	while (pixel.x < WIDTH)
+	{
+		ray = ft_new_vray(pixel.x, cub3d->player);
+		ft_calculate_vray(cub3d, &ray, draw_level);
+		pixel.y = ray.draw_bound.x - 1;
+		if (pixel.y < 0)
+			pixel.y = 0;
+		while (pixel.y < HEIGHT && pixel.y <= ray.draw_bound.y)
+		{
+			color = ft_get_color(pixel, ray);
+			ft_put_pixel(&cub3d->screen, pixel.x, pixel.y, color);
+			pixel.y++;
+		}
+		pixel.x++;
+	}
+}
+
 static void	ft_render_image(t_cub3d *cub3d)
 {
-	t_2int_point	screen_pixel;
-	t_ray			*ray;
-	int				color;
-	int				level;
+	int				player_z;
+	int				draw_z;
 
 	ft_render_background(cub3d);
-	ray = malloc(sizeof(t_ray) * cub3d->nbr_levels);
-	screen_pixel.x = 0;
-	while (screen_pixel.x < WIDTH)
+	player_z = (int)cub3d->player.pos.z;
+	draw_z = 0;
+	while (draw_z < player_z)
 	{
-		level = 0;
-		while (level < cub3d->nbr_levels)
-		{
-			ray[level] = ft_new_ray(screen_pixel.x, cub3d->player);
-			ft_calculate_ray(cub3d, &ray[level], level);
-			level++;
-		}
-		while (level-- > 0)
-		{
-			screen_pixel.y = ray[level].draw_bound.x;
-			if (screen_pixel.y < 0)
-				screen_pixel.y = 0;
-			while (screen_pixel.y < HEIGHT && screen_pixel.y <= ray[level].draw_bound.y)
-			{
-				color = ft_get_color(screen_pixel, ray[level]);
-				ft_put_pixel(&cub3d->screen, screen_pixel.x, screen_pixel.y, color);
-				screen_pixel.y++;
-			}
-		}
-		screen_pixel.x++;
+		ft_render_floor(cub3d, draw_z, player_z);
+		ft_render_wall(cub3d, draw_z);
+		draw_z++;
 	}
-	free(ray);
+	draw_z = cub3d->nbr_levels - 1;
+	while (draw_z > player_z)
+	{
+		ft_render_wall(cub3d, draw_z);
+		draw_z--;
+	}
+	ft_render_floor(cub3d, player_z, player_z);
+	ft_render_wall(cub3d, player_z);
 }
 
 static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
