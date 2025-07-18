@@ -26,6 +26,7 @@ int	ft_close(t_cub3d *cub3d)
 	mlx_destroy_window(cub3d->mlx, cub3d->mlx_window);
 	mlx_destroy_display(cub3d->mlx);
 	free(cub3d->mlx);
+	free(cub3d->map);
 	exit(EXIT_SUCCESS);
 }
 
@@ -38,8 +39,10 @@ int	ft_key_release(int keycode, t_cub3d *cub3d)
 
 static void	ft_key(int keycode, t_cub3d *cub3d)
 {
-	(void) keycode;
-	(void) cub3d;
+	if (keycode == Q)
+		cub3d->player.pos.z += 1;
+	if (keycode == E)
+		cub3d->player.pos.z -= 1;
 }
 
 int	ft_key_press(int keycode, t_cub3d *cub3d)

@@ -46,6 +46,7 @@ typedef struct	s_ray
 	bool			axis;
 	double			distance;
 	int				line_height;
+	int				level_offset;
 	t_2int_point	draw_bound; //x start, y end
 	double			wall_x;
 	t_img			*tex;
@@ -57,6 +58,6 @@ typedef struct s_player t_player;
 
 int		ft_engine(t_cub3d *cub3d);
 t_ray	ft_new_ray(int x, t_player player);
-void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray);
+void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray, int level);
 
 #endif

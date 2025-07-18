@@ -12,14 +12,14 @@
 
 #include "cub3d.h"
 
-#define W_BYTE	W / BIT_PER_BYTE
-#define W_BIT	W % BIT_PER_BYTE
-#define A_BYTE	A / BIT_PER_BYTE
-#define A_BIT	A % BIT_PER_BYTE
-#define S_BYTE	S / BIT_PER_BYTE
-#define S_BIT	S % BIT_PER_BYTE
-#define D_BYTE	D / BIT_PER_BYTE
-#define D_BIT	D % BIT_PER_BYTE
+#define W_BYTE	(W / BIT_PER_BYTE)
+#define W_BIT	(W % BIT_PER_BYTE)
+#define A_BYTE	(A / BIT_PER_BYTE)
+#define A_BIT	(A % BIT_PER_BYTE)
+#define S_BYTE	(S / BIT_PER_BYTE)
+#define S_BIT	(S % BIT_PER_BYTE)
+#define D_BYTE	(D / BIT_PER_BYTE)
+#define D_BIT	(D % BIT_PER_BYTE)
 
 static void	ft_update_player_pos(uint8_t *keystate, t_player *player)
 {
@@ -45,14 +45,14 @@ static void	ft_update_player_pos(uint8_t *keystate, t_player *player)
 	}
 }
 
-#define UP_BYTE		UP / BIT_PER_BYTE
-#define UP_BIT		UP % BIT_PER_BYTE
-#define LEFT_BYTE	LEFT / BIT_PER_BYTE
-#define LEFT_BIT	LEFT % BIT_PER_BYTE
-#define RIGHT_BYTE	RIGHT / BIT_PER_BYTE
-#define RIGHT_BIT	RIGHT % BIT_PER_BYTE
-#define DOWN_BYTE	DOWN / BIT_PER_BYTE
-#define DOWN_BIT	DOWN % BIT_PER_BYTE
+#define UP_BYTE		(UP / BIT_PER_BYTE)
+#define UP_BIT		(UP % BIT_PER_BYTE)
+#define LEFT_BYTE	(LEFT / BIT_PER_BYTE)
+#define LEFT_BIT	(LEFT % BIT_PER_BYTE)
+#define RIGHT_BYTE	(RIGHT / BIT_PER_BYTE)
+#define RIGHT_BIT	(RIGHT % BIT_PER_BYTE)
+#define DOWN_BYTE	(DOWN / BIT_PER_BYTE)
+#define DOWN_BIT	(DOWN % BIT_PER_BYTE)
 
 static void	ft_update_player_dir(uint8_t *keystate, t_player *player)
 {

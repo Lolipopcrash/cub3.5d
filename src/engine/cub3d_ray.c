@@ -38,6 +38,9 @@ t_ray	ft_new_ray(int x, t_player player)
 
 static void	ft_hit_loop(t_map map, t_ray *ray)
 {
+	bool	ray_inside_map;
+
+	ray_inside_map = (map.level[ray->map_pos.y][ray->map_pos.x] != '1');
 	while (!ray->hit)
 	{
 		if (ray->side.x < ray->side.y)
@@ -52,20 +55,26 @@ static void	ft_hit_loop(t_map map, t_ray *ray)
 			ray->map_pos.y += ray->step.y;
 			ray->axis = Y_AXIS;
 		}
-		if (map.level[ray->map_pos.y][ray->map_pos.x] == '1')
+		if (ray->map_pos.x < map.min_x || ray->map_pos.x >= map.max_x ||
+			ray->map_pos.y < map.min_y || ray->map_pos.y >= map.max_y)
+			return ;
+		if (ray_inside_map && map.level[ray->map_pos.y][ray->map_pos.x] == '1')
 			ray->hit = true;
+		else if (!ray_inside_map && map.level[ray->map_pos.y][ray->map_pos.x] != '1')
+			ray_inside_map = true;
 	}
 }
 
-void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray)
+void	ft_calculate_ray(t_cub3d *cub3d, t_ray *ray, int level)
 {
-	ft_hit_loop(cub3d->map[(int)cub3d->player.pos.z], ray);
+	ft_hit_loop(cub3d->map[level], ray);
 	ray->distance = (ray->axis == X_AXIS)
 		? (ray->map_pos.x - cub3d->player.pos.x + (1 - ray->step.x) / 2) / ray->dir.x
 		: (ray->map_pos.y - cub3d->player.pos.y + (1 - ray->step.y) / 2) / ray->dir.y;
 	ray->line_height = (int)(HEIGHT / ray->distance);
-	ray->draw_bound.x = -ray->line_height / 2 + HEIGHT / 2;
-	ray->draw_bound.y = ray->line_height / 2 + HEIGHT / 2;
+	ray->level_offset = ((level - (int)cub3d->player.pos.z) * HEIGHT) / ray->distance;
+	ray->draw_bound.x = -ray->line_height / 2 + HEIGHT / 2 - ray->level_offset;
+	ray->draw_bound.y = ray->line_height / 2 + HEIGHT / 2 - ray->level_offset;
 	ray->wall_x = (ray->axis == X_AXIS)
 		? cub3d->player.pos.y + ray->distance * ray->dir.y
 		: cub3d->player.pos.x + ray->distance * ray->dir.x;
