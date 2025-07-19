@@ -32,8 +32,16 @@ int	ft_get_texture_pixel(t_img *tex, int x, int y)
 {
 	int	offset;
 
-	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
-		return (0);
+	if (x < 0)
+		x += tex->width;
+	if (y < 0)
+		y += tex->height;
+	if (x >= tex->width)
+		x -= tex->width;
+	if (y >= tex->height)
+		y -= tex->height;
+	//if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+	//	return (0);
 	offset = y * tex->line_len + x * (tex->bpp / 8);
 	return (*(int *)(tex->pixels_ptr + offset));
 }

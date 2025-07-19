@@ -33,6 +33,7 @@ t_vray	ft_new_vray(int x, t_player player)
 		? (player.pos.y - ray.map_pos.y) * ray.delta.y
 		: (ray.map_pos.y + 1.0 - player.pos.y) * ray.delta.y;
 	ray.hit = false;
+	ray.render = true;
 	return (ray);
 }
 
@@ -57,7 +58,10 @@ static void	ft_hit_loop(t_map map, t_vray *ray)
 		}
 		if (ray->map_pos.x < map.min_x || ray->map_pos.x >= map.max_x ||
 			ray->map_pos.y < map.min_y || ray->map_pos.y >= map.max_y)
+		{
+			ray->render = false;
 			return ;
+		}
 		if (ray_inside_map && map.level[ray->map_pos.y][ray->map_pos.x] == '1')
 			ray->hit = true;
 		else if (!ray_inside_map && map.level[ray->map_pos.y][ray->map_pos.x] != '1')
@@ -68,6 +72,8 @@ static void	ft_hit_loop(t_map map, t_vray *ray)
 void	ft_calculate_vray(t_cub3d *cub3d, t_vray *ray, int level)
 {
 	ft_hit_loop(cub3d->map[level], ray);
+	if (ray->render == false)
+		return ;
 	ray->distance = (ray->axis == X_AXIS)
 		? (ray->map_pos.x - cub3d->player.pos.x + (1 - ray->step.x) / 2) / ray->dir.x
 		: (ray->map_pos.y - cub3d->player.pos.y + (1 - ray->step.y) / 2) / ray->dir.y;

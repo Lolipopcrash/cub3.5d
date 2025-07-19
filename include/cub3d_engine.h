@@ -44,6 +44,7 @@ typedef struct	s_vray
 	t_2db_point		side;
 	bool			hit;
 	bool			axis;
+	bool			render;
 	double			distance;
 	int				line_height;
 	int				level_offset;
