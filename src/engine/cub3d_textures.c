@@ -34,10 +34,10 @@ int	ft_get_texture_pixel(t_img *tex, int x, int y)
 
 	if (x < 0)
 		x += tex->width;
-	if (y < 0)
-		y += tex->height;
 	if (x >= tex->width)
 		x -= tex->width;
+	if (y < 0)
+		y += tex->height;
 	if (y >= tex->height)
 		y -= tex->height;
 	//if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)

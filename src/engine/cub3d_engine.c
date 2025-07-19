@@ -115,7 +115,7 @@ static void	ft_render_wall(t_cub3d *cub3d, int draw_level, int *loop_count)
 			pixel.x++;
 			continue ;
 		}
-		pixel.y = ray.draw_bound.x - 1;
+		pixel.y = ray.draw_bound.x - FIX_PIXEL_GAP;
 		if (pixel.y < 0)
 			pixel.y = 0;
 		while (pixel.y < HEIGHT && pixel.y <= ray.draw_bound.y)
