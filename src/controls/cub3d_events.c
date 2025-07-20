@@ -43,6 +43,10 @@ static void	ft_key(int keycode, t_cub3d *cub3d)
 		cub3d->player.pos.z += 0.1;
 	if (keycode == E)
 		cub3d->player.pos.z -= 0.1;
+	if (keycode == UP)
+		cub3d->player.pitch += 1;
+	if (keycode == DOWN)
+		cub3d->player.pitch -= 1;
 }
 
 int	ft_key_press(int keycode, t_cub3d *cub3d)

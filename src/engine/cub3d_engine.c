@@ -31,19 +31,48 @@ static int	ft_get_color(t_2int_point screen_pixel, t_vray ray)
 	return (ft_get_texture_pixel(ray.tex, ray.tex_pixel.x, ray.tex_pixel.y));
 }
 
+static void	ft_draw_sky(t_cub3d *cub3d, t_img *sky)
+{
+	int	color;
+	int	x;
+	int	y;
+
+	double	angle = atan2(cub3d->player.look_dir.y, cub3d->player.look_dir.x);
+	if (angle < 0)
+		angle += 2 * M_PI;
+
+	int	tex_offset_x = (int)(angle / (2 * M_PI) * sky->width * 3);
+	
+	y = 0;
+	while (y < (HEIGHT / 2) + cub3d->player.pos.z * Z_FACTOR && y < HEIGHT)
+	{
+		double	v;
+
+		v = (double)(y + HEIGHT / 2 + cub3d->player.pos.z * Z_FACTOR) / (HEIGHT / 2);
+		v = pow(v, 0.7);
+		tex_pixel.y = (int)(v * sky->height) % sky->height;
+		x = 0;
+		while (x < WIDTH)
+		{
+			tex_pixel.x = (int)(tex_offset_x + x * sky->width / WIDTH) % sky->width;
+			color = ft_get_texture_pixel(sky, tex_x, tex_y);
+			ft_put_pixel(&cub3d->screen, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 static void	ft_render_background(t_cub3d *cub3d)
 {
 	int color;
 	int	x;
 	int	y;
 
-	y = 0;
+	y = HEIGHT / 2 + 1 + cub3d->player.pos.z * 20;
 	while (y < HEIGHT)
 	{
-		if (y < HEIGHT / 2)
-			color = DEFAULT_ROOF_COLOR;
-		else
-			color = DEFAULT_FLOOR_COLOR;
+		color = DEFAULT_FLOOR_COLOR;
 		x = 0;
 		while (x < WIDTH)
 		{
@@ -52,6 +81,7 @@ static void	ft_render_background(t_cub3d *cub3d)
 		}
 		y++;
 	}
+	ft_draw_sky(cub3d, &cub3d->textures.sky);
 }
 
 static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int *loop_count)

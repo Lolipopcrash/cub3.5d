@@ -137,7 +137,7 @@ static void	ft_init_mlx(t_cub3d *cub3d)
 	cub3d->mlx = mlx_init();
 	if (!cub3d->mlx)
 		exit(EXIT_FAILURE);
-	cub3d->mlx_window = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3.5d");
+	cub3d->mlx_window = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
 	if (!cub3d->mlx_window)
 	{
 		mlx_destroy_display(cub3d->mlx);

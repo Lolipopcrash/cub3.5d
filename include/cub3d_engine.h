@@ -20,6 +20,7 @@
 
 # define X_AXIS	0
 # define Y_AXIS	1
+# define Z_FACTOR 20
 # define PLAYER_FOV 0.66
 # define FIX_PIXEL_GAP 2
 # define DEFAULT_FLOOR_COLOR 0xFFF8DC
