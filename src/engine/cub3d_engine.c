@@ -54,7 +54,7 @@ static void	ft_render_background(t_cub3d *cub3d)
 	}
 }
 
-static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int player_floor, int *loop_count)
+static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int *loop_count)
 {
 	t_2int_point	pixel;
 	t_2db_point		dir_left;
@@ -68,7 +68,7 @@ static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int player_floor, in
 	pixel.y = HEIGHT / 2 + 1;
 	while (pixel.y < HEIGHT)
 	{
-		ray = ft_new_hray(pixel, dir_left, dir_right, cub3d->player.pos, player_floor, draw_floor);
+		ray = ft_new_hray(pixel, dir_left, dir_right, cub3d->player.pos, draw_floor);
 		pixel.x = 0;
 		while (pixel.x < WIDTH)
 		{
@@ -77,8 +77,8 @@ static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int player_floor, in
 			if (cub3d->map[draw_floor].min_x < ray.map_pos.x && ray.map_pos.x < cub3d->map[draw_floor].max_x &&
 				cub3d->map[draw_floor].min_y < ray.map_pos.y && ray.map_pos.y < cub3d->map[draw_floor].max_y)
 			{
-				if (cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == 'F' ||
-					cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == 'D')
+				if (cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == FLOOR ||
+					cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == DOOR)
 				{
 					ray.tex_pixel.x = (int)(ray.pos.x * cub3d->textures.floor.width) % cub3d->textures.floor.width;
 					ray.tex_pixel.y = (int)(ray.pos.y * cub3d->textures.floor.height) % cub3d->textures.floor.height;
@@ -118,7 +118,7 @@ static void	ft_render_wall(t_cub3d *cub3d, int draw_level, int *loop_count)
 		pixel.y = ray.draw_bound.x - FIX_PIXEL_GAP;
 		if (pixel.y < 0)
 			pixel.y = 0;
-		while (pixel.y < HEIGHT && pixel.y <= ray.draw_bound.y)
+		while (pixel.y < HEIGHT && pixel.y <= ray.draw_bound.y + FIX_PIXEL_GAP)
 		{
 			color = ft_get_color(pixel, ray);
 			ft_put_pixel(&cub3d->screen, pixel.x, pixel.y, color);
@@ -139,7 +139,7 @@ static void	ft_render_image(t_cub3d *cub3d, int *loop_count)
 	draw_z = 0;
 	while (draw_z < player_z)
 	{
-		ft_render_floor(cub3d, draw_z, player_z, loop_count);
+		ft_render_floor(cub3d, draw_z, loop_count);
 		ft_render_wall(cub3d, draw_z, loop_count);
 		draw_z++;
 	}
@@ -149,7 +149,7 @@ static void	ft_render_image(t_cub3d *cub3d, int *loop_count)
 		ft_render_wall(cub3d, draw_z, loop_count);
 		draw_z--;
 	}
-	ft_render_floor(cub3d, player_z, player_z, loop_count);
+	ft_render_floor(cub3d, player_z, loop_count);
 	ft_render_wall(cub3d, player_z, loop_count);
 }
 
@@ -161,7 +161,7 @@ static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
 	player.y = (int)cub3d->player.pos.y;
 	if (player.x < map.min_x || player.x >= map.max_x ||
 		player.y < map.min_y || player.y >= map.max_y ||
-		map.level[player.y][player.x] == '1')
+		map.level[player.y][player.x] == WALL)
 		return (0);
 	return (1);
 }
@@ -182,7 +182,7 @@ int	ft_engine(t_cub3d *cub3d)
 		ft_render_image(cub3d, &loop_count);
 	else
 		ft_render_background(cub3d);
-	printf("loop_count = %d\n", loop_count);
+	//printf("loop_count = %d\n", loop_count);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->mlx_window, cub3d->screen.img_ptr, 0, 0);
 	return (1);
 }

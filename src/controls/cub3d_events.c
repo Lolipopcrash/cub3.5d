@@ -40,9 +40,9 @@ int	ft_key_release(int keycode, t_cub3d *cub3d)
 static void	ft_key(int keycode, t_cub3d *cub3d)
 {
 	if (keycode == Q)
-		cub3d->player.pos.z += 1;
+		cub3d->player.pos.z += 0.1;
 	if (keycode == E)
-		cub3d->player.pos.z -= 1;
+		cub3d->player.pos.z -= 0.1;
 }
 
 int	ft_key_press(int keycode, t_cub3d *cub3d)

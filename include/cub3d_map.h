@@ -15,6 +15,11 @@
 
 # include "cub3d_extlibs.h"
 
+# define AIR	'0'
+# define WALL	'1'
+# define DOOR	'D'
+# define FLOOR	'F'
+
 typedef struct	s_map
 {
 	int		offset_x;

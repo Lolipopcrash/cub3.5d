@@ -20,7 +20,6 @@
 # include "cub3d_engine.h"
 # include "cub3d_controls.h"
 
-# define PLAYABLE_AREA 'F'
 # define HEIGHT	720
 # define WIDTH	1280
 
