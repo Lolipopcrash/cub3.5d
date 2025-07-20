@@ -33,20 +33,23 @@ static int	ft_get_color(t_2int_point screen_pixel, t_vray ray)
 
 static void	ft_draw_sky(t_cub3d *cub3d, t_img *sky)
 {
-	int	color;
-	int	x;
-	int	y;
+	double	angle;
+	int		tex_offset;
+	int		color;
+	int		x;
+	int		y;
 
-	double	angle = atan2(cub3d->player.look_dir.y, cub3d->player.look_dir.x);
+	angle = atan2(cub3d->player.look_dir.y, cub3d->player.look_dir.x);
 	if (angle < 0)
 		angle += 2 * M_PI;
 
-	int	tex_offset_x = (int)(angle / (2 * M_PI) * sky->width * 3);
+	tex_offset = (int)(angle / (2 * M_PI) * sky->width * 3);
 	
 	y = 0;
 	while (y < (HEIGHT / 2) + cub3d->player.pos.z * Z_FACTOR && y < HEIGHT)
 	{
-		double	v;
+		t_2int_point	tex_pixel;
+		double			v;
 
 		v = (double)(y + HEIGHT / 2 + cub3d->player.pos.z * Z_FACTOR) / (HEIGHT / 2);
 		v = pow(v, 0.7);
@@ -54,8 +57,8 @@ static void	ft_draw_sky(t_cub3d *cub3d, t_img *sky)
 		x = 0;
 		while (x < WIDTH)
 		{
-			tex_pixel.x = (int)(tex_offset_x + x * sky->width / WIDTH) % sky->width;
-			color = ft_get_texture_pixel(sky, tex_x, tex_y);
+			tex_pixel.x = (int)(tex_offset + x * sky->width / WIDTH) % sky->width;
+			color = ft_get_texture_pixel(sky, tex_pixel.x, tex_pixel.y);
 			ft_put_pixel(&cub3d->screen, x, y, color);
 			x++;
 		}
