@@ -47,17 +47,23 @@ typedef struct	s_vray
 	t_2db_point		side;
 	bool			hit;
 	bool			axis;
+	t_vhit			*hit_list;
+}					t_vray;
+
+typedef struct	s_vhit
+{
+	bool			render;
 	bool			door;
 	bool			door_axis;
-	bool			render;
 	double			distance;
 	int				line_height;
 	int				level_offset;
-	t_2int_point	draw_bound; //x start, y end
+	t_2int_point	draw_bound;
 	double			wall_x;
 	t_img			*tex;
 	t_2int_point	tex_pixel;
-}					t_vray;
+	struct s_vhit	*next;
+}					t_vhit;
 
 typedef struct	s_hray
 {

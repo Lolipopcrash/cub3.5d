@@ -193,8 +193,7 @@ static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
 	player.x = (int)cub3d->player.pos.x;
 	player.y = (int)cub3d->player.pos.y;
 	if (player.x < map.min_x || player.x >= map.max_x ||
-		player.y < map.min_y || player.y >= map.max_y ||
-		map.level[player.y][player.x] == WALL)
+		player.y < map.min_y || player.y >= map.max_y)
 		return (0);
 	return (1);
 }
