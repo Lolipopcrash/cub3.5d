@@ -21,6 +21,7 @@
 # define X_AXIS	0
 # define Y_AXIS	1
 # define Z_FACTOR 20
+# define DOOR_DEPTH 0.4
 # define PLAYER_FOV 0.66
 # define FIX_PIXEL_GAP 2
 # define DEFAULT_FLOOR_COLOR 0xFFF8DC
@@ -36,20 +37,6 @@ typedef struct	s_draw_elements
 	int				vert_offset;
 }					t_draw_elements;
 
-typedef struct	s_vray
-{
-	//double			camera_x; //could be precalculated based on window WIDTH
-	t_2db_point		origin;
-	t_2db_point		dir;
-	t_2int_point	map_pos;
-	t_2db_point		delta;
-	t_2int_point	step;
-	t_2db_point		side;
-	bool			hit;
-	bool			axis;
-	t_vhit			*hit_list;
-}					t_vray;
-
 typedef struct	s_vhit
 {
 	bool			render;
@@ -64,6 +51,20 @@ typedef struct	s_vhit
 	t_2int_point	tex_pixel;
 	struct s_vhit	*next;
 }					t_vhit;
+
+typedef struct	s_vray
+{
+	//double			camera_x; //could be precalculated based on window WIDTH
+	t_2db_point		origin;
+	t_2db_point		dir;
+	t_2int_point	map_pos;
+	t_2db_point		delta;
+	t_2int_point	step;
+	t_2db_point		side;
+	bool			axis;
+	bool			door_axis;
+	t_vhit			**hit_list;
+}					t_vray;
 
 typedef struct	s_hray
 {
@@ -89,8 +90,8 @@ typedef struct s_player t_player;
 
 int		ft_engine(t_cub3d *cub3d);
 
-t_vray	ft_new_vray(int x, t_player player);
-void	ft_calculate_vray(t_cub3d *cub3d, t_vray *ray, int level);
+t_vray	ft_new_vray(int x, t_player player, int nbr_levels);
+void	ft_hit_loop(t_cub3d *cub3d, t_map *map, t_vray *ray);
 
 t_hray	ft_new_hray(t_2int_point pixel, t_2db_point dir_left, t_2db_point dir_right, t_3db_point player_pos, int floor);
 
