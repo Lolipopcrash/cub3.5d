@@ -23,10 +23,14 @@ int	ft_close(t_cub3d *cub3d)
 	mlx_destroy_image(cub3d->mlx, cub3d->textures.sky.img_ptr);
 
 	mlx_destroy_image(cub3d->mlx, cub3d->screen.img_ptr);
+	mlx_destroy_image(cub3d->mlx, cub3d->floor_img.img_ptr);
 	mlx_destroy_window(cub3d->mlx, cub3d->mlx_window);
 	mlx_destroy_display(cub3d->mlx);
 	free(cub3d->mlx);
 	free(cub3d->map);
+	for (int i = 0; i < HEIGHT; i++)
+		free(cub3d->floor_height[i]);
+	free(cub3d->floor_height);
 	exit(EXIT_SUCCESS);
 }
 

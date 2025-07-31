@@ -13,6 +13,7 @@
 #ifndef CUB3D_EXTLIBS_H
 # define CUB3D_EXTLIBS_H
 
+# include <time.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>

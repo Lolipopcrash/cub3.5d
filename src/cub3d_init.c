@@ -145,7 +145,8 @@ static void	ft_init_mlx(t_cub3d *cub3d)
 		exit(EXIT_FAILURE);
 	}
 	cub3d->screen.img_ptr = mlx_new_image(cub3d->mlx, WIDTH, HEIGHT);
-	if (!cub3d->screen.img_ptr)
+	cub3d->floor_img.img_ptr = mlx_new_image(cub3d->mlx, WIDTH, HEIGHT);
+	if (!cub3d->screen.img_ptr || !cub3d->floor_img.img_ptr)
 	{
 		mlx_destroy_window(cub3d->mlx, cub3d->mlx_window);
 		mlx_destroy_display(cub3d->mlx);
@@ -156,6 +157,10 @@ static void	ft_init_mlx(t_cub3d *cub3d)
 			&cub3d->screen.bpp,
 			&cub3d->screen.line_len,
 			&cub3d->screen.endian);
+	cub3d->floor_img.pixels_ptr = mlx_get_data_addr(cub3d->floor_img.img_ptr,
+			&cub3d->floor_img.bpp,
+			&cub3d->floor_img.line_len,
+			&cub3d->floor_img.endian);
 }
 
 void	ft_init_cub3d(t_cub3d *cub3d)
@@ -169,7 +174,13 @@ void	ft_init_cub3d(t_cub3d *cub3d)
 	cub3d->map = malloc(sizeof(t_map) * cub3d->nbr_levels);
 	ft_init_map(cub3d->map);
 	ft_init_player(&cub3d->player);
+	cub3d->floor_height = calloc(sizeof(uint8_t *), HEIGHT);
 	i = 0;
 	while (i < KEY_MAX / BIT_PER_BYTE)
+	{
+		if (i < HEIGHT)
+			cub3d->floor_height[i] = calloc(sizeof(uint8_t), WIDTH);
 		cub3d->keystate[i++] = 0;
+	}
+	cub3d->frames = 0;
 }

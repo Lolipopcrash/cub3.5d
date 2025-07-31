@@ -17,9 +17,19 @@ static void	ft_put_pixel(t_img *img, int x, int y, int color)
 	int	offset;
 
 	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return;
+		return ;
 	offset = (y * img->line_len) + (x * (img->bpp / 8));
 	*(unsigned int *)(img->pixels_ptr + offset) = color;
+}
+
+static int	ft_cpy_color(int x, int y, t_img img)
+{
+	int	offset;
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return (0);
+	offset = (y * img.line_len) + (x * (img.bpp / 8));
+	return (*(unsigned int *)(img.pixels_ptr + offset));
 }
 
 static int	ft_get_color(int y, t_vhit *hit)
@@ -86,53 +96,59 @@ static void	ft_render_background(t_cub3d *cub3d)
 	}
 	ft_draw_sky(cub3d, &cub3d->textures.sky);
 }
-/*
-static void	ft_render_floor(t_cub3d *cub3d, int draw_floor, int *loop_count)
+
+static void	ft_render_floor(t_cub3d *cub3d, int player_floor)
 {
 	t_2int_point	pixel;
 	t_2db_point		dir_left;
 	t_2db_point		dir_right;
 	t_hray			ray;
+	int				draw_floor;
 
 	dir_left.x = cub3d->player.look_dir.x - cub3d->player.cam_plane.x;
 	dir_left.y = cub3d->player.look_dir.y - cub3d->player.cam_plane.y;
 	dir_right.x = cub3d->player.look_dir.x + cub3d->player.cam_plane.x;
 	dir_right.y = cub3d->player.look_dir.y + cub3d->player.cam_plane.y;
-	pixel.y = HEIGHT / 2 + 1;
-	while (pixel.y < HEIGHT)
+	draw_floor = 0;
+	while (draw_floor <= player_floor)
 	{
-		ray = ft_new_hray(pixel, dir_left, dir_right, cub3d->player.pos, draw_floor);
-		pixel.x = 0;
-		while (pixel.x < WIDTH)
+		pixel.y = HEIGHT / 2 + 1;
+		while (pixel.y < HEIGHT)
 		{
-			ray.map_pos.x = (int)ray.pos.x;
-			ray.map_pos.y = (int)ray.pos.y;
-			if (cub3d->map[draw_floor].min_x < ray.map_pos.x && ray.map_pos.x < cub3d->map[draw_floor].max_x &&
-				cub3d->map[draw_floor].min_y < ray.map_pos.y && ray.map_pos.y < cub3d->map[draw_floor].max_y)
+			ray = ft_new_hray(pixel, dir_left, dir_right, cub3d->player.pos, draw_floor);
+			pixel.x = 0;
+			while (pixel.x < WIDTH)
 			{
-				if (cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == FLOOR ||
-					cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == DOOR)
+				ray.map_pos.x = (int)ray.pos.x;
+				ray.map_pos.y = (int)ray.pos.y;
+				if (cub3d->map[draw_floor].min_x < ray.map_pos.x && ray.map_pos.x < cub3d->map[draw_floor].max_x &&
+					cub3d->map[draw_floor].min_y < ray.map_pos.y && ray.map_pos.y < cub3d->map[draw_floor].max_y)
 				{
-					ray.tex_pixel.x = (int)(ray.pos.x * cub3d->textures.floor.width) % cub3d->textures.floor.width;
-					ray.tex_pixel.y = (int)(ray.pos.y * cub3d->textures.floor.height) % cub3d->textures.floor.height;
+					if (cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == FLOOR ||
+						cub3d->map[draw_floor].level[ray.map_pos.y][ray.map_pos.x] == DOOR)
+					{
+						ray.tex_pixel.x = (int)(ray.pos.x * cub3d->textures.floor.width) % cub3d->textures.floor.width;
+						ray.tex_pixel.y = (int)(ray.pos.y * cub3d->textures.floor.height) % cub3d->textures.floor.height;
 						if (ray.tex_pixel.x < 0)
-						ray.tex_pixel.x += cub3d->textures.floor.width;
-					if (ray.tex_pixel.y < 0)
-						ray.tex_pixel.y += cub3d->textures.floor.height;
-					int	color = ft_get_texture_pixel(&cub3d->textures.floor, ray.tex_pixel.x, ray.tex_pixel.y);
-					ft_put_pixel(&cub3d->screen, pixel.x, pixel.y, color);
+							ray.tex_pixel.x += cub3d->textures.floor.width;
+						if (ray.tex_pixel.y < 0)
+							ray.tex_pixel.y += cub3d->textures.floor.height;
+						int	color = ft_get_texture_pixel(&cub3d->textures.floor, ray.tex_pixel.x, ray.tex_pixel.y);
+						ft_put_pixel(&cub3d->floor_img, pixel.x, pixel.y, color);
+						cub3d->floor_height[pixel.y][pixel.x] = draw_floor + 1;
+					}
 				}
+				ray.pos.x += ray.step.x;
+				ray.pos.y += ray.step.y;
+				pixel.x++;
 			}
-			ray.pos.x += ray.step.x;
-			ray.pos.y += ray.step.y;
-			pixel.x++;
-			(*loop_count)++;
+			pixel.y++;
 		}
-		pixel.y++;
+		draw_floor++;
 	}
-}*/
+}
 
-static void	ft_draw_hitlist(t_img *screen, int x, t_vhit *hit_list)
+static void	ft_draw_hitlist(t_cub3d *cub3d, int x, t_vhit *hit_list, int floor)
 {
 	int		y;
 	int		color;
@@ -149,10 +165,18 @@ static void	ft_draw_hitlist(t_img *screen, int x, t_vhit *hit_list)
 			tmp = tmp->next;
 			continue ;
 		}
-		while (y < HEIGHT && y <= tmp->draw_bound.y + FIX_PIXEL_GAP)
+		while (y < HEIGHT)
 		{
-			color = ft_get_color(y, tmp);
-			ft_put_pixel(screen, x, y, color);
+			if (y <= tmp->draw_bound.y + FIX_PIXEL_GAP)
+				color = ft_get_color(y, tmp);
+			else if (cub3d->floor_height[y][x] == floor + 1)
+				color = ft_cpy_color(x, y, cub3d->floor_img);
+			else
+			{
+				y++;
+				continue ;
+			}
+			ft_put_pixel(&cub3d->screen, x, y, color);
 			y++;
 		}
 		tmp = tmp->next;
@@ -198,16 +222,16 @@ static void	ft_render_wall(t_cub3d *cub3d)
 		level = 0;
 		while (level < player_level)
 		{
-			ft_draw_hitlist(&cub3d->screen, screen_x, ray.hit_list[level]);
+			ft_draw_hitlist(cub3d, screen_x, ray.hit_list[level], level);
 			level++;
 		}
 		level = cub3d->nbr_levels - 1;
 		while (level > player_level)
 		{
-			ft_draw_hitlist(&cub3d->screen, screen_x, ray.hit_list[level]);
+			ft_draw_hitlist(cub3d, screen_x, ray.hit_list[level], level);
 			level--;
 		}
-		ft_draw_hitlist(&cub3d->screen, screen_x, ray.hit_list[player_level]);
+		ft_draw_hitlist(cub3d, screen_x, ray.hit_list[player_level], level);
 		screen_x++;
 		ft_free_vray(&ray, cub3d->nbr_levels);
 	}
@@ -215,9 +239,12 @@ static void	ft_render_wall(t_cub3d *cub3d)
 
 static void	ft_render_image(t_cub3d *cub3d)
 {
+	for (int j = 0; j < HEIGHT; j++)
+		for (int i = 0; i < WIDTH; i++)
+			cub3d->floor_height[j][i] = 0;
 	ft_render_background(cub3d);
+	ft_render_floor(cub3d, (int)cub3d->player.pos.z);
 	ft_render_wall(cub3d);
-	
 }
 
 static bool	ft_valid_position(t_cub3d *cub3d, t_map map)
@@ -245,7 +272,13 @@ int	ft_engine(t_cub3d *cub3d)
 		ft_render_image(cub3d);
 	else
 		ft_render_background(cub3d);
-	//printf("loop_count = %d\n", loop_count);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->mlx_window, cub3d->screen.img_ptr, 0, 0);
+	cub3d->frames++;
+	if ((time(NULL) - cub3d->start_time) != cub3d->last_time)
+	{
+		printf("FPS = %d\n", cub3d->frames);
+		cub3d->last_time = time(NULL) - cub3d->start_time;
+		cub3d->frames = 0;
+	}
 	return (1);
 }
